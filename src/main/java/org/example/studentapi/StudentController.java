@@ -1,6 +1,7 @@
 package org.example.studentapi;
 
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -16,33 +17,38 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<Student>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public Student getById(@PathVariable Long id) {
-        return service.getStudentById(id);
+    public ResponseEntity<Student> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getStudentById(id));
     }
 
     @GetMapping("/passed")
-    public List<Student> getPassed() {
-        return service.passed();
+    public ResponseEntity<List<Student>> getPassed() {
+        return ResponseEntity.ok(service.passed());
     }
 
     @PostMapping("/new")
-    public Student addStudent(@Valid @RequestBody Student student) {
-        return service.newStudent(student);
+    public ResponseEntity<Student> addStudent(@Valid @RequestBody Student student) {
+        return ResponseEntity.status(201).body(service.newStudent(student));
     }
 
     @PutMapping("/edit/{id}")
-    public Student editStudent(@PathVariable Long id, @Valid @RequestBody Student student) {
-        return service.edit(id, student);
+    public ResponseEntity<Student> editStudent(@PathVariable Long id, @Valid @RequestBody Student student) {
+        return ResponseEntity.ok(service.edit(id, student));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
+
+
+
+
