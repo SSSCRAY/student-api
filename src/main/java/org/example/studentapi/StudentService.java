@@ -31,10 +31,6 @@ public class StudentService {
     }
 
     public Student newStudent(Student student) {
-        if(student.getName() == null || student.getName().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Имя должно быть обязательными");
-        }
-
         studentRepository.save(student);
         return student;
     }

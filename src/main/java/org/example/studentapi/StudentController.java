@@ -1,5 +1,6 @@
 package org.example.studentapi;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -30,12 +31,12 @@ public class StudentController {
     }
 
     @PostMapping("/new")
-    public Student addStudent(@RequestBody Student student) {
+    public Student addStudent(@Valid @RequestBody Student student) {
         return service.newStudent(student);
     }
 
     @PutMapping("/edit/{id}")
-    public Student editStudent(@PathVariable Long id, @RequestBody Student student) {
+    public Student editStudent(@PathVariable Long id, @Valid @RequestBody Student student) {
         return service.edit(id, student);
     }
 
