@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -13,40 +14,51 @@ import java.util.List;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final StudentMapper mapper;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, StudentMapper mapper) {
         this.studentRepository = studentRepository;
+        this.mapper = mapper;
     }
 
-    public List<Student> getAll() {
-        return studentRepository.findAll();
+    public List<StudentResponseDTO> getAll() {
+        return studentRepository.findAll().stream()
+                .map(student -> mapper.toResponse(student))
+                .collect(Collectors.toList());
     }
 
-    public Student getStudentById(Long id) {
-        return studentRepository.findById(id).orElseThrow(
+    public StudentResponseDTO getStudentById(Long id) {
+        Student student = studentRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return mapper.toResponse(student);
     }
     
-    public List<Student> passed() {
-        return studentRepository.findByGradeGreaterThanEqual(60);
+    public List<StudentResponseDTO> passed() {
+        return studentRepository.findByGradeGreaterThanEqual(60)
+                .stream()
+                .map(student -> mapper.toResponse(student))
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public Student newStudent(Student student) {
-        studentRepository.save(student);
-        return student;
+    public StudentResponseDTO newStudent(StudentRequestDTO requestDTO) {
+        Student student = mapper.toEntity(requestDTO);
+        Student studentSave = studentRepository.save(student);
+        return mapper.toResponse(studentSave);
+
     }
 
     @Transactional
-    public Student edit(Long id, Student student) {
+    public StudentResponseDTO edit(Long id, StudentRequestDTO requestDTO) {
 
        Student existing = studentRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-       existing.setName(student.getName());
-       existing.setGrade(student.getGrade());
+       existing.setName(requestDTO.getName());
+       existing.setGrade(requestDTO.getGrade());
+       Student studentSave = studentRepository.save(existing);
 
-       return studentRepository.save(existing);
+       return mapper.toResponse(studentSave);
     }
 
     @Transactional

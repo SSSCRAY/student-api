@@ -17,28 +17,28 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAll() {
+    public ResponseEntity<List<StudentResponseDTO>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getById(@PathVariable Long id) {
+    public ResponseEntity<StudentResponseDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getStudentById(id));
     }
 
     @GetMapping("/passed")
-    public ResponseEntity<List<Student>> getPassed() {
+    public ResponseEntity<List<StudentResponseDTO>> getPassed() {
         return ResponseEntity.ok(service.passed());
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Student> addStudent(@Valid @RequestBody Student student) {
-        return ResponseEntity.status(201).body(service.newStudent(student));
+    public ResponseEntity<StudentResponseDTO> addStudent(@Valid @RequestBody StudentRequestDTO request) {
+        return ResponseEntity.status(201).body(service.newStudent(request));
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Student> editStudent(@PathVariable Long id, @Valid @RequestBody Student student) {
-        return ResponseEntity.ok(service.edit(id, student));
+    public ResponseEntity<StudentResponseDTO> editStudent(@PathVariable Long id, @Valid @RequestBody StudentRequestDTO request) {
+        return ResponseEntity.ok(service.edit(id, request));
     }
 
     @DeleteMapping("/{id}")
