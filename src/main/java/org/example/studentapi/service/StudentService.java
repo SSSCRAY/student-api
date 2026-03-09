@@ -1,5 +1,10 @@
-package org.example.studentapi;
+package org.example.studentapi.service;
 
+import org.example.studentapi.dto.StudentRequestDTO;
+import org.example.studentapi.dto.StudentResponseDTO;
+import org.example.studentapi.entity.Student;
+import org.example.studentapi.mapper.StudentMapper;
+import org.example.studentapi.repository.StudentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

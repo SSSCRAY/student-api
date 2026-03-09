@@ -1,4 +1,4 @@
-package org.example.studentapi;
+package org.example.studentapi.dto;
 
 
 public class StudentResponseDTO {

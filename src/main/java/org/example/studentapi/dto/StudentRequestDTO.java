@@ -1,4 +1,4 @@
-package org.example.studentapi;
+package org.example.studentapi.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

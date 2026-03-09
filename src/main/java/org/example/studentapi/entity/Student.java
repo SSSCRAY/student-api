@@ -1,4 +1,4 @@
-package org.example.studentapi;
+package org.example.studentapi.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
