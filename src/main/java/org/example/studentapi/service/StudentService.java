@@ -38,8 +38,8 @@ public class StudentService {
         return mapper.toResponse(student);
     }
     
-    public List<StudentResponseDTO> passed() {
-        return studentRepository.findByGradeGreaterThanEqual(60)
+    public List<StudentResponseDTO> getByMinGrade(Integer minGrade) {
+        return studentRepository.findByGradeGreaterThanEqual(minGrade)
                 .stream()
                 .map(student -> mapper.toResponse(student))
                 .collect(Collectors.toList());

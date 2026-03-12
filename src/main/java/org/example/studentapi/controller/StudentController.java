@@ -29,9 +29,13 @@ public class StudentController {
         return ResponseEntity.ok(service.getStudentById(id));
     }
 
-    @GetMapping("/passed")
-    public ResponseEntity<List<StudentResponseDTO>> getPassed() {
-        return ResponseEntity.ok(service.passed());
+    @GetMapping
+    public ResponseEntity<List<StudentResponseDTO>> getAll(
+            @RequestParam(required = false) Integer minGrade) {
+        if (minGrade != null) {
+            return ResponseEntity.ok(service.getByMinGrade(minGrade));
+        }
+        return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping("/new")
